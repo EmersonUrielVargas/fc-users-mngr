@@ -11,5 +11,5 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-appDescription: "Pragma Powerup"
+appDescription: "Food Court Users mngr"
 appVersion: "1.0.0"
