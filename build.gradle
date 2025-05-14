@@ -1,13 +1,13 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.3'
-	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-	id 'java'
-	id 'jacoco'
+    id 'org.springframework.boot' version '3.4.5'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+    id 'jacoco'
 }
 
 group = 'com.pragma.powerup'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '21'
 
 configurations {
 	compileOnly {
@@ -20,12 +20,12 @@ repositories {
 }
 
 ext {
-	springBootVersion = "2.7.3"
-	mapstructVersion = "1.5.2.Final"
-	lombokVersion = "1.18.24"
+	springBootVersion = "3.4.5"
+	mapstructVersion = "1.6.3"
+	lombokVersion = "1.18.34"
 	lombokMapstructBindingVersion = "0.2.0"
-	mySqlConnectorVersion = "8.0.32"
-	openApiVersion = "1.6.11"
+	mySqlConnectorVersion = "8.0.33"
+	openApiVersion = "1.8.0"
 }
 
 dependencies {
