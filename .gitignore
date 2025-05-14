@@ -1,0 +1,39 @@
+### Gradle ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Build Output
+out/
+
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code
+.vscode/
+
+### Eclipse ###
+.project
+.classpath
+.c9/
+.settings/
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+
+### Logs ###
+*.log
+logs/
+*.*
