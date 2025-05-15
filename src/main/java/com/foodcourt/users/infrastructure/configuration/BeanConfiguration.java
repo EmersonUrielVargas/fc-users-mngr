@@ -15,6 +15,7 @@ import com.foodcourt.users.infrastructure.out.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class BeanConfiguration {
     private final IUserEntityMapper userEntityMapper;
     private final IRoleRepository roleRepository;
     private final IRoleEntityMapper roleEntityMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public IUserPersistencePort userPersistencePort() {
@@ -36,7 +38,7 @@ public class BeanConfiguration {
 
     @Bean
     public IPasswordEncoderPort passwordEncoderPort() {
-        return new PasswordEncoderAdapter();
+        return new PasswordEncoderAdapter(bCryptPasswordEncoder);
     }
 
     @Bean

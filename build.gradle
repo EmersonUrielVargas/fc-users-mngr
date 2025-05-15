@@ -58,3 +58,10 @@ tasks.named('test') {
 test {
 	finalizedBy jacocoTestReport
 }
+
+jacocoTestReport {
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+	}
+}

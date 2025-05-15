@@ -1,11 +1,13 @@
 package com.foodcourt.users.infrastructure.out.jpa.adapter;
 
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+@RequiredArgsConstructor
 public class PasswordEncoderAdapter implements IPasswordEncoderPort {
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public String encoder(String password) {
