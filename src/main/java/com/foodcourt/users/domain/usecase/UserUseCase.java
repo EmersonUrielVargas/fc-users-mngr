@@ -1,13 +1,15 @@
 package com.foodcourt.users.domain.usecase;
 
 import com.foodcourt.users.domain.api.IUserServicePort;
+import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
+import com.foodcourt.users.domain.exception.DomainException;
+import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
 import com.foodcourt.users.domain.validators.UserValidator;
-import reactor.core.publisher.Mono;
 
 public class UserUseCase implements IUserServicePort{
 
@@ -26,20 +28,17 @@ public class UserUseCase implements IUserServicePort{
 
 
     @Override
-    public Mono<Void> createOwner(User userToCreate) {
-        return Mono.just(userToCreate)
-                .flatMap(UserValidator::validateAge)
-                .flatMap(UserValidator::validateEmail)
-                .flatMap(UserValidator::validatePhone)
-                .flatMap(UserValidator::validateIDNumber)
-                .flatMap(user ->
-                    rolePersistencePort.getByName(UserRole.OWNER)
-                        .map(ownerRole -> {
-                            user.setRole(ownerRole);
-                            user.setPassword(passwordEncoderPort.encoder(user.getPassword()));
-                            return user;
-                        })
-                )
-                .flatMap(userPersistencePort::saveUser);
+    public void createOwner(User userToCreate) {
+
+        UserValidator.validateEmail(userToCreate);
+        UserValidator.validatePhone(userToCreate);
+        UserValidator.validateIDNumber(userToCreate);
+        User validatedUser = UserValidator.validateAge(userToCreate);
+        Role ownerRol = rolePersistencePort.getByName(UserRole.OWNER)
+                .orElseThrow(() -> new DomainException(Constants.ROLE_NO_FOUND));
+        validatedUser.setRole(ownerRol);
+        validatedUser.setPassword(passwordEncoderPort.encoder(userToCreate.getPassword()));
+
+        userPersistencePort.saveUser(validatedUser);
     }
 }

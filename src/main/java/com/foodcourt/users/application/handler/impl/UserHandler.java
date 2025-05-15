@@ -8,7 +8,6 @@ import com.foodcourt.users.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Mono;
 
 @Service
 @Transactional
@@ -18,9 +17,8 @@ public class UserHandler implements IUserHandler {
     private final IOwnerRequestMapper ownerRequestMapper;
 
     @Override
-    public Mono<Void> createOwner(OwnerRequestDto owner) {
+    public void createOwner(OwnerRequestDto owner) {
         User userToCreate = ownerRequestMapper.toUser(owner);
         userServicePort.createOwner(userToCreate);
-        return Mono.empty();
     }
 }
