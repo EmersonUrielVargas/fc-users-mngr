@@ -24,7 +24,7 @@ public class BeanConfiguration {
     private final IUserEntityMapper userEntityMapper;
     private final IRoleRepository roleRepository;
     private final IRoleEntityMapper roleEntityMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     @Bean
     public IUserPersistencePort userPersistencePort() {
