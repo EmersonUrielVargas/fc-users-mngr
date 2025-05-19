@@ -73,10 +73,6 @@ public class UserUseCaseTest {
                 .phoneNumber("+573158000111")
                 .lastName("doe")
                 .build();
-        Role ownerRole = Role.builder()
-                .name(UserRole.OWNER).
-                id(1L).
-                build();
 
         assertThrows(DomainException.class, () -> userUseCase.createOwner(userOwner));
     }
@@ -115,11 +111,9 @@ public class UserUseCaseTest {
     void shouldThrowExceptionUserNotFound(){
         Long userId = 2L;
         User userOwner = new User();
-        when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.of(userOwner));
+        when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.empty());
 
-        DomainException exception = assertThrows(DomainException.class, () -> {
-            userUseCase.getUserRoleById(userId);
-        });
+        DomainException exception = assertThrows(DomainException.class, () -> userUseCase.getUserRoleById(userId));
 
         assertEquals(Constants.USER_NO_FOUND, exception.getMessage());
         verify(userPersistencePort).getUserById(userId);

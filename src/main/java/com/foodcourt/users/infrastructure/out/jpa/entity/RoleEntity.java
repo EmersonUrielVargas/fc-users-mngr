@@ -1,6 +1,5 @@
 package com.foodcourt.users.infrastructure.out.jpa.entity;
 
-import com.foodcourt.users.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 

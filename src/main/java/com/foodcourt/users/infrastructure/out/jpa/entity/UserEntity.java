@@ -36,6 +36,6 @@ public class UserEntity {
     private String clave;
 
     @ManyToOne
-    @JoinColumn(name = "id_rol", insertable = true, updatable = true)
+    @JoinColumn(name = "id_rol")
     private RoleEntity role;
 }

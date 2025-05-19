@@ -10,8 +10,6 @@ import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -80,9 +78,7 @@ class UserHandlerTest {
         Long userId = 2L;
         when(userServicePort.getUserRoleById(userId)).thenReturn(Optional.empty());
 
-        DomainException exception = assertThrows(DomainException.class, () -> {
-            userHandler.getUserRoleById(userId);
-        });
+        DomainException exception = assertThrows(DomainException.class, () -> userHandler.getUserRoleById(userId));
 
         assertEquals(Constants.ROLE_NO_FOUND, exception.getMessage());
         verify(userServicePort, times(1)).getUserRoleById(userId);

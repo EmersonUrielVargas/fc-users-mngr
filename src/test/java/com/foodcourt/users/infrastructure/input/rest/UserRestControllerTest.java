@@ -1,6 +1,5 @@
 package com.foodcourt.users.infrastructure.input.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
@@ -16,12 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.result.ContentResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.regex.Matcher;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

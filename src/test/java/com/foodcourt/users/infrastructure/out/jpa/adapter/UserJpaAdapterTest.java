@@ -45,7 +45,7 @@ class UserJpaAdapterTest {
     void getUserById() {
         Long userId = 3L;
         User user = User.builder().name("roger").build();
-        UserEntity userEntity = UserEntity.builder().nombre("roger").build();;
+        UserEntity userEntity = UserEntity.builder().nombre("roger").build();
 
         when(userEntityMapper.toUser(userEntity)).thenReturn(user);
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(userEntity));
