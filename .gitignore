@@ -4,8 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
 
-# Build Output
-out/
 
 ### Java ###
 *.class
@@ -18,7 +16,6 @@ out/
 *.iml
 *.iws
 *.ipr
-out/
 
 # VS Code
 .vscode/
@@ -36,4 +33,3 @@ Thumbs.db
 ### Logs ###
 *.log
 logs/
-*.*
