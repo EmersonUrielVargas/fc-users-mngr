@@ -2,10 +2,7 @@ package com.foodcourt.users.infrastructure.out.jpa.entity;
 
 import com.foodcourt.users.domain.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "Roles")
@@ -13,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class RoleEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
