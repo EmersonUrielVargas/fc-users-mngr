@@ -10,6 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,5 +39,20 @@ class UserJpaAdapterTest {
 
         verify(userEntityMapper).toUserEntity(user);
         verify(userRepository).save(userEntity);
+    }
+
+    @Test
+    void getUserById() {
+        Long userId = 3L;
+        User user = User.builder().name("roger").build();
+        UserEntity userEntity = UserEntity.builder().nombre("roger").build();
+
+        when(userEntityMapper.toUser(userEntity)).thenReturn(user);
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(userEntity));
+        Optional<User> userFound = userJpaAdapter.getUserById(userId);
+
+        verify(userEntityMapper).toUser(userEntity);
+        verify(userRepository).findById(userId);
+        assertEquals(Optional.of(user), userFound);
     }
 }

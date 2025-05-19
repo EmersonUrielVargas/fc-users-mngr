@@ -7,6 +7,8 @@ public class Constants {
     public static final String INVALID_PHONE_NUMBER = "El numero de telefono no es valido ";
     public static final String INVALID_ID_NUMBER = "El documento de identidad no es valido ";
     public static final String ROLE_NO_FOUND = "El rol no fue encontrado ";
+    public static final String USER_NO_FOUND = "El usuario no fue encontrado ";
+
 
     /*Patrones propiedes*/
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";

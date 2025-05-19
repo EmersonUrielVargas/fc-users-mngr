@@ -1,6 +1,7 @@
 package com.foodcourt.users.infrastructure.input.rest;
 
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
+import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,10 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/mngr/users")
@@ -31,6 +29,17 @@ public class UserRestController {
     public ResponseEntity<Void> saveOwner(@Valid @RequestBody OwnerRequestDto ownerRequestDto) {
         userHandler.createOwner(ownerRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Get UserRole by user id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User Found", content = @Content),
+            @ApiResponse(responseCode = "409", description = "User not found", content = @Content)
+    })
+    @GetMapping("/role/{id}")
+    public ResponseEntity<UserRoleResponseDto> getUserRole(@Valid @PathVariable Long id) {
+        UserRoleResponseDto response =  userHandler.getUserRoleById(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 }
