@@ -11,6 +11,8 @@ import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
 import com.foodcourt.users.domain.validators.UserValidator;
 
+import java.util.Optional;
+
 public class UserUseCase implements IUserServicePort{
 
     private final IUserPersistencePort userPersistencePort;
@@ -41,4 +43,14 @@ public class UserUseCase implements IUserServicePort{
 
         userPersistencePort.saveUser(validatedUser);
     }
+
+    @Override
+    public Optional<UserRole> getUserRoleById(Long idUser) {
+        User userFound = userPersistencePort.getUserById(idUser)
+                .orElseThrow(()-> new DomainException(Constants.USER_NO_FOUND));
+        return Optional.ofNullable(userFound.getRole())
+                .map(Role::getName);
+    }
+
+
 }

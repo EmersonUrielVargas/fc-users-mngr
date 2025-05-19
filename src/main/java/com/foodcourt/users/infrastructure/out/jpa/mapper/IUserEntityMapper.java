@@ -5,6 +5,7 @@ import com.foodcourt.users.infrastructure.out.jpa.entity.UserEntity;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
+        uses = {IRoleEntityMapper.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE
 )
