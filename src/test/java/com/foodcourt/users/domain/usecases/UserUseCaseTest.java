@@ -1,5 +1,6 @@
 package com.foodcourt.users.domain.usecases;
 
+import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.Role;
@@ -78,5 +79,49 @@ public class UserUseCaseTest {
                 build();
 
         assertThrows(DomainException.class, () -> userUseCase.createOwner(userOwner));
+    }
+
+    @Test
+    void shouldReturnUserRoleSuccessful(){
+        Long userId = 2L;
+        Role ownerRole = Role.builder()
+                .name(UserRole.OWNER).
+                id(1L).
+                build();
+        User userOwner = new User();
+        userOwner.setRole(ownerRole);
+        when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.of(userOwner));
+
+        Optional<UserRole> roleResponse = userUseCase.getUserRoleById(userId);
+
+        verify(userPersistencePort).getUserById(userId);
+        assertEquals(Optional.of(ownerRole.getName()), roleResponse);
+
+    }
+
+    @Test
+    void shouldReturnEmptyUserRole(){
+        Long userId = 2L;
+        User userOwner = new User();
+        when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.of(userOwner));
+
+        Optional<UserRole> roleResponse = userUseCase.getUserRoleById(userId);
+
+        verify(userPersistencePort).getUserById(userId);
+        assertTrue(roleResponse.isEmpty());
+    }
+
+    @Test
+    void shouldThrowExceptionUserNotFound(){
+        Long userId = 2L;
+        User userOwner = new User();
+        when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.of(userOwner));
+
+        DomainException exception = assertThrows(DomainException.class, () -> {
+            userUseCase.getUserRoleById(userId);
+        });
+
+        assertEquals(Constants.USER_NO_FOUND, exception.getMessage());
+        verify(userPersistencePort).getUserById(userId);
     }
 }

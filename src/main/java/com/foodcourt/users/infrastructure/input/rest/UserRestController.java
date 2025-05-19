@@ -39,7 +39,7 @@ public class UserRestController {
     @GetMapping("/role/{id}")
     public ResponseEntity<UserRoleResponseDto> getUserRole(@Valid @PathVariable Long id) {
         UserRoleResponseDto response =  userHandler.getUserRoleById(id);
-        return new ResponseEntity<UserRoleResponseDto>(response,HttpStatus.CREATED);
+        return new ResponseEntity<UserRoleResponseDto>(response,HttpStatus.OK);
     }
 
 }

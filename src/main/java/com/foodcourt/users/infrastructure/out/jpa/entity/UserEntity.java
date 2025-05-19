@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@Builder
 public class UserEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

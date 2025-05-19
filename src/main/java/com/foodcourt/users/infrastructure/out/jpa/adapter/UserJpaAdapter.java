@@ -23,7 +23,6 @@ public class UserJpaAdapter implements IUserPersistencePort {
     @Override
     public Optional<User> getUserById(Long idUser) {
         Optional<UserEntity> userEntity =  userRepository.findById(idUser);
-        System.out.println("usuario bd" + userEntity);
         return userEntity.map(userEntityMapper::toUser);
     }
 }
