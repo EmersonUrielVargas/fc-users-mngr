@@ -6,7 +6,7 @@ import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
-import com.foodcourt.users.domain.spi.IGenerateTokenPort;
+import com.foodcourt.users.domain.spi.IAuthenticationPort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
@@ -19,16 +19,14 @@ public class UserUseCase implements IUserServicePort{
     private final IUserPersistencePort userPersistencePort;
     private final IPasswordEncoderPort passwordEncoderPort;
     private final IRolePersistencePort rolePersistencePort;
-    private final IGenerateTokenPort generateTokenPort;
 
 
     public UserUseCase(IUserPersistencePort userPersistencePort,
                        IPasswordEncoderPort passwordEncoderPort,
-                       IRolePersistencePort rolePersistencePort, IGenerateTokenPort generateTokenPort) {
+                       IRolePersistencePort rolePersistencePort) {
         this.userPersistencePort = userPersistencePort;
         this.passwordEncoderPort = passwordEncoderPort;
         this.rolePersistencePort = rolePersistencePort;
-        this.generateTokenPort = generateTokenPort;
     }
 
 
@@ -53,17 +51,6 @@ public class UserUseCase implements IUserServicePort{
                 .orElseThrow(()-> new DomainException(Constants.USER_NO_FOUND));
         return Optional.ofNullable(userFound.getRole())
                 .map(Role::getName);
-    }
-
-    @Override
-    public Optional<String> loginUser(String email, String password) {
-        User userFound = userPersistencePort.getUserByEmail(email)
-                .orElseThrow(()->new DomainException(Constants.USER_NO_FOUND));
-        if (passwordEncoderPort.matches(password, userFound.getPassword())){
-            return generateTokenPort.generateToken(userFound);
-        }else {
-            return Optional.empty();
-        }
     }
 
 

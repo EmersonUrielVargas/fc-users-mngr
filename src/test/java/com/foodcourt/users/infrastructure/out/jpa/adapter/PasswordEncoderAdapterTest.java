@@ -1,5 +1,6 @@
 package com.foodcourt.users.infrastructure.out.jpa.adapter;
 
+import com.foodcourt.users.infrastructure.security.adapter.PasswordEncoderAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

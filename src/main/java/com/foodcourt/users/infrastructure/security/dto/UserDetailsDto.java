@@ -20,7 +20,6 @@ public class UserDetailsDto implements UserDetails {
     private String password;
     @NotNull
     private Long idUser;
-
     @NotNull
     private UserRole role;
 

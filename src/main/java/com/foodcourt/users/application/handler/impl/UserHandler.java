@@ -1,8 +1,6 @@
 package com.foodcourt.users.application.handler.impl;
 
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
-import com.foodcourt.users.application.dto.request.UserLoginRequestDto;
-import com.foodcourt.users.application.dto.response.UserLoginResponseDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
 import com.foodcourt.users.application.mapper.IOwnerRequestMapper;
@@ -35,15 +33,6 @@ public class UserHandler implements IUserHandler {
                 .orElseThrow(()-> new DomainException(Constants.ROLE_NO_FOUND));
         response.setUserRole(roleFound.toString());
         return response;
-    }
-
-    @Override
-    public UserLoginResponseDto loginUser(UserLoginRequestDto userLoginRequestDto) {
-        UserLoginResponseDto responseDto = new UserLoginResponseDto();
-        String authToken = userServicePort.loginUser(userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword())
-                .orElseThrow(()->new DomainException(Constants.INVALID_CREDENTIALS));
-        responseDto.setAuthToken(authToken);
-        return responseDto;
     }
 
 

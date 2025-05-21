@@ -5,8 +5,7 @@ import com.foodcourt.users.application.dto.request.UserLoginRequestDto;
 import com.foodcourt.users.application.dto.response.UserLoginResponseDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 
-public interface IUserHandler {
+public interface IAuthUserHandler {
 
-    void createOwner(OwnerRequestDto owner);
-    UserRoleResponseDto getUserRoleById(Long id);
+    UserLoginResponseDto loginUser(UserLoginRequestDto userLoginRequestDto);
 }
