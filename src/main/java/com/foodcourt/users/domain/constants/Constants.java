@@ -8,6 +8,7 @@ public class Constants {
     public static final String INVALID_ID_NUMBER = "El documento de identidad no es valido ";
     public static final String ROLE_NO_FOUND = "El rol no fue encontrado ";
     public static final String USER_NO_FOUND = "El usuario no fue encontrado ";
+    public static final String INVALID_CREDENTIALS = "Las credenciales son invalidas, verifique informacion";
 
 
     /*Patrones propiedes*/

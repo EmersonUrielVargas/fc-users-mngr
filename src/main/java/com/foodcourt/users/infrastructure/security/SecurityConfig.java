@@ -1,4 +1,4 @@
-package com.foodcourt.users.infrastructure.configuration;
+package com.foodcourt.users.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
