@@ -59,7 +59,7 @@ public class BeanConfiguration {
 
     @Bean
     public IAuthUserServicePort authUserServicePort() {
-        return new AuthUserUseCase(userPersistencePort(), passwordEncoderPort(), rolePersistencePort(), authenticationPort());
+        return new AuthUserUseCase(userPersistencePort(), passwordEncoderPort(), authenticationPort());
     }
 
     @Bean

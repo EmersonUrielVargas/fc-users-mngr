@@ -20,20 +20,21 @@ public class AuthUserUseCase implements IAuthUserServicePort {
 
     public AuthUserUseCase(IUserPersistencePort userPersistencePort,
                            IPasswordEncoderPort passwordEncoderPort,
-                           IRolePersistencePort rolePersistencePort, IAuthenticationPort authenticationPort) {
+                           IAuthenticationPort authenticationPort) {
         this.userPersistencePort = userPersistencePort;
         this.passwordEncoderPort = passwordEncoderPort;
         this.authenticationPort = authenticationPort;
     }
 
     @Override
-    public Optional<String> loginUser(String email, String password) {
+    public String loginUser(String email, String password) {
         User userFound = userPersistencePort.getUserByEmail(email)
                 .orElseThrow(()->new DomainException(Constants.USER_NO_FOUND));
         if (passwordEncoderPort.matches(password, userFound.getPassword())){
-            return authenticationPort.generateToken(userFound);
+            return authenticationPort.generateToken(userFound)
+                    .orElseThrow(()->new DomainException(Constants.ERROR_GENERATE_TOKEN));
         }else {
-            return Optional.empty();
+            throw new DomainException(Constants.INVALID_CREDENTIALS);
         }
     }
 
