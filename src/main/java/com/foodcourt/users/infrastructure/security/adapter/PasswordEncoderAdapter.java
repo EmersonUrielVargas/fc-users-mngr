@@ -1,4 +1,4 @@
-package com.foodcourt.users.infrastructure.out.jpa.adapter;
+package com.foodcourt.users.infrastructure.security.adapter;
 
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import lombok.RequiredArgsConstructor;

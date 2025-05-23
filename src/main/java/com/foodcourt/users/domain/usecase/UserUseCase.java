@@ -6,6 +6,7 @@ import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
+import com.foodcourt.users.domain.spi.IAuthenticationPort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
