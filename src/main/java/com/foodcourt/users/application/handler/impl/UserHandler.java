@@ -1,8 +1,10 @@
 package com.foodcourt.users.application.handler.impl;
 
+import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
+import com.foodcourt.users.application.mapper.ICreateEmployeeRequestMapper;
 import com.foodcourt.users.application.mapper.IOwnerRequestMapper;
 import com.foodcourt.users.domain.api.IUserServicePort;
 import com.foodcourt.users.domain.constants.Constants;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserHandler implements IUserHandler {
     private final IUserServicePort userServicePort;
     private final IOwnerRequestMapper ownerRequestMapper;
+    private final ICreateEmployeeRequestMapper createEmployeeRequestMapper;
 
     @Override
     public void createOwner(OwnerRequestDto owner) {
@@ -33,6 +36,12 @@ public class UserHandler implements IUserHandler {
                 .orElseThrow(()-> new DomainException(Constants.ROLE_NO_FOUND));
         response.setUserRole(roleFound.toString());
         return response;
+    }
+
+    @Override
+    public void createEmployee(CreateEmployeeRequestDto createEmployeeRequestDto) {
+        User employee = createEmployeeRequestMapper.toUser(createEmployeeRequestDto);
+        userServicePort.createEmployee(employee);
     }
 
 

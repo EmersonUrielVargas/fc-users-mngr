@@ -6,7 +6,6 @@ import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
-import com.foodcourt.users.domain.spi.IAuthenticationPort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
@@ -32,7 +31,6 @@ public class UserUseCase implements IUserServicePort{
 
     @Override
     public void createOwner(User userToCreate) {
-
         UserValidator.validateEmail(userToCreate);
         UserValidator.validatePhone(userToCreate);
         UserValidator.validateIDNumber(userToCreate);
@@ -53,5 +51,19 @@ public class UserUseCase implements IUserServicePort{
                 .map(Role::getName);
     }
 
+    @Override
+    public void createEmployee(User employee) {
+        UserValidator.validateEmail(employee);
+        UserValidator.validatePhone(employee);
+        User validatedUser = UserValidator.validateIDNumber(employee);
+        Role employeeRol = rolePersistencePort.getByName(UserRole.EMPLOYEE)
+                .orElseThrow(() -> new DomainException(Constants.ROLE_NO_FOUND));
+        if (!employeeRol.getId().equals(employee.getRole().getId())){
+            throw new DomainException(Constants.ROLE_EMPLOYEE_NO_MATCHED);
+        }
+        validatedUser.setRole(employeeRol);
+        validatedUser.setPassword(passwordEncoderPort.encoder(employee.getPassword()));
 
+        userPersistencePort.saveUser(validatedUser);
+    }
 }

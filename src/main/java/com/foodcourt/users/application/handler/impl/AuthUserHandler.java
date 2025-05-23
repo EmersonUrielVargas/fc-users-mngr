@@ -20,8 +20,7 @@ public class AuthUserHandler implements IAuthUserHandler {
     @Override
     public UserLoginResponseDto loginUser(UserLoginRequestDto userLoginRequestDto) {
         UserLoginResponseDto responseDto = new UserLoginResponseDto();
-        String authToken = authUserServicePort.loginUser(userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword())
-                .orElseThrow(()->new DomainException(Constants.INVALID_CREDENTIALS));
+        String authToken = authUserServicePort.loginUser(userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword());
         responseDto.setAuthToken(authToken);
         return responseDto;
     }

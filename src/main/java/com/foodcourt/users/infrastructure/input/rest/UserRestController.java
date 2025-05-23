@@ -1,5 +1,6 @@
 package com.foodcourt.users.infrastructure.input.rest;
 
+import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
@@ -40,6 +41,17 @@ public class UserRestController {
     public ResponseEntity<UserRoleResponseDto> getUserRole(@Valid @PathVariable Long id) {
         UserRoleResponseDto response =  userHandler.getUserRoleById(id);
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @Operation(summary = "Create a new employee user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "employee created", content = @Content),
+            @ApiResponse(responseCode = "409", description = "employee information is invalid", content = @Content)
+    })
+    @PostMapping("/employee")
+    public ResponseEntity<Void> saveEmployee(@Valid @RequestBody CreateEmployeeRequestDto employeeRequestDto) {
+        userHandler.createEmployee(employeeRequestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }
