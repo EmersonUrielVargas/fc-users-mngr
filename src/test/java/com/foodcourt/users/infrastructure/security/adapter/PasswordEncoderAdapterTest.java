@@ -1,4 +1,4 @@
-package com.foodcourt.users.infrastructure.out.jpa.adapter;
+package com.foodcourt.users.infrastructure.security.adapter;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
