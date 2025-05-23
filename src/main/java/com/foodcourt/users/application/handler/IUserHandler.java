@@ -3,7 +3,6 @@ package com.foodcourt.users.application.handler;
 import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
-import com.foodcourt.users.domain.model.User;
 
 public interface IUserHandler {
 

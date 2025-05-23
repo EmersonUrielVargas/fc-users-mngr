@@ -20,7 +20,7 @@ public class AuthUserUseCase implements IAuthUserServicePort {
 
     public AuthUserUseCase(IUserPersistencePort userPersistencePort,
                            IPasswordEncoderPort passwordEncoderPort,
-                           IRolePersistencePort rolePersistencePort, IAuthenticationPort authenticationPort) {
+                           IAuthenticationPort authenticationPort) {
         this.userPersistencePort = userPersistencePort;
         this.passwordEncoderPort = passwordEncoderPort;
         this.authenticationPort = authenticationPort;

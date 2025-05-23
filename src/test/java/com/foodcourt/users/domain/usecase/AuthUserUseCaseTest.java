@@ -7,7 +7,6 @@ import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IAuthenticationPort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
-import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -51,11 +49,6 @@ class AuthUserUseCaseTest {
                 .phoneNumber("+573158000111")
                 .lastName("doe")
                 .build();
-        Role ownerRole = Role.builder()
-                .name(UserRole.OWNER).
-                id(1L).
-                build();
-
         when(userPersistencePort.getUserByEmail(userEmail))
                 .thenReturn(Optional.of(userFound));
 

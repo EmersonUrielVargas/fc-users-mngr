@@ -1,7 +1,6 @@
 package com.foodcourt.users.application.mapper;
 
 import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
-import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.domain.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
