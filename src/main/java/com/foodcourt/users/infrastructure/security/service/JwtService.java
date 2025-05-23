@@ -1,9 +1,8 @@
-package com.foodcourt.users.infrastructure.security;
+package com.foodcourt.users.infrastructure.security.service;
 
 import com.foodcourt.users.infrastructure.security.dto.UserDetailsDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +16,9 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+
+    public static final String ROL_KEY_TOKEN = "role";
+    public static final String USER_ID_KEY_TOKEN = "userID";
 
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
@@ -45,11 +47,11 @@ public class JwtService {
     
     public String generateToken(UserDetailsDto userDetails){
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("userID", userDetails.getIdUser());
-        extraClaims.put("role",userDetails.getRole().name());
+        extraClaims.put(USER_ID_KEY_TOKEN, userDetails.getIdUser());
+        extraClaims.put(ROL_KEY_TOKEN,userDetails.getRole().name());
         return generateToken(extraClaims, userDetails);
     }
-    
+
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUserEmail(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
@@ -63,7 +65,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }

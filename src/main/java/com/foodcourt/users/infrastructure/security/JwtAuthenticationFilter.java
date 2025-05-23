@@ -1,5 +1,6 @@
 package com.foodcourt.users.infrastructure.security;
 
+import com.foodcourt.users.infrastructure.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

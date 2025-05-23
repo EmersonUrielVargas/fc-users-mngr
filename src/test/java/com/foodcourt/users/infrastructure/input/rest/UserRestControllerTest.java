@@ -57,7 +57,7 @@ public class UserRestControllerTest {
         """;
 
         doNothing().when(userHandler).createOwner(any(OwnerRequestDto.class));
-        MockHttpServletRequestBuilder request = post("/api/v1/mngr/users/owner")
+        MockHttpServletRequestBuilder request = post("/owner")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody);
         mockMvc.perform(request)
@@ -79,7 +79,7 @@ public class UserRestControllerTest {
             }
         """;
         doThrow(new DomainException("fail data")).when(userHandler).createOwner(any(OwnerRequestDto.class));
-        MockHttpServletRequestBuilder request = post("/api/v1/mngr/users/owner")
+        MockHttpServletRequestBuilder request = post("/owner")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody);
         mockMvc.perform(request)
@@ -100,7 +100,7 @@ public class UserRestControllerTest {
             }
         """;
 
-        MockHttpServletRequestBuilder request = post("/api/v1/mngr/users/owner")
+        MockHttpServletRequestBuilder request = post("/owner")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody);
         mockMvc.perform(request)
@@ -123,7 +123,7 @@ public class UserRestControllerTest {
 
         when(userHandler.getUserRoleById(anyLong())).thenReturn(userRoleResponse);
 
-        MockHttpServletRequestBuilder request = get("/api/v1/mngr/users/role/{id}", userId)
+        MockHttpServletRequestBuilder request = get("/role/{id}", userId)
                 .contentType(MediaType.APPLICATION_JSON);
         mockMvc.perform(request)
                 .andDo(print())
@@ -137,7 +137,7 @@ public class UserRestControllerTest {
         when(userHandler.getUserRoleById(userId))
                 .thenThrow(new DomainException(Constants.ROLE_NO_FOUND));
 
-        MockHttpServletRequestBuilder request = get("/api/v1/mngr/users/role/{id}", userId)
+        MockHttpServletRequestBuilder request = get("/role/{id}", userId)
                 .contentType(MediaType.APPLICATION_JSON);
         mockMvc.perform(request)
                 .andDo(print())

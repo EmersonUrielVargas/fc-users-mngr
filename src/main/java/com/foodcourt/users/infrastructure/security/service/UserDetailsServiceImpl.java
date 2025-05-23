@@ -1,4 +1,4 @@
-package com.foodcourt.users.infrastructure.security;
+package com.foodcourt.users.infrastructure.security.service;
 
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
 import com.foodcourt.users.infrastructure.exceptionhandler.ExceptionResponse;

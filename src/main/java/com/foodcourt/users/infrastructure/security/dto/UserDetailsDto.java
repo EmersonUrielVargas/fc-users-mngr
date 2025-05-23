@@ -3,6 +3,7 @@ package com.foodcourt.users.infrastructure.security.dto;
 import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.model.Role;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
+@Builder
 public class UserDetailsDto implements UserDetails {
 
     @NotNull

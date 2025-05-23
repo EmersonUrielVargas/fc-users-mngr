@@ -2,7 +2,7 @@ package com.foodcourt.users.infrastructure.security.adapter;
 
 import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IAuthenticationPort;
-import com.foodcourt.users.infrastructure.security.JwtService;
+import com.foodcourt.users.infrastructure.security.service.JwtService;
 import com.foodcourt.users.infrastructure.security.dto.UserDetailsDto;
 import com.foodcourt.users.infrastructure.security.mapper.IUserDetailsMapper;
 import lombok.RequiredArgsConstructor;
