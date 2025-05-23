@@ -1,10 +1,6 @@
 package com.foodcourt.users.infrastructure.security.adapter;
 
-import com.foodcourt.users.domain.enums.UserRole;
-import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
-import com.foodcourt.users.infrastructure.out.jpa.entity.RoleEntity;
-import com.foodcourt.users.infrastructure.out.jpa.mapper.IRoleEntityMapper;
 import com.foodcourt.users.infrastructure.security.dto.UserDetailsDto;
 import com.foodcourt.users.infrastructure.security.mapper.IUserDetailsMapper;
 import com.foodcourt.users.infrastructure.security.service.JwtService;

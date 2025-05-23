@@ -1,7 +1,6 @@
 package com.foodcourt.users.application.dto.response;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

@@ -1,7 +1,6 @@
 package com.foodcourt.users.infrastructure.security.dto;
 
 import com.foodcourt.users.domain.enums.UserRole;
-import com.foodcourt.users.domain.model.Role;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
