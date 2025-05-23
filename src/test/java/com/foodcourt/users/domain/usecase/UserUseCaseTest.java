@@ -1,4 +1,4 @@
-package com.foodcourt.users.domain.usecases;
+package com.foodcourt.users.domain.usecase;
 
 import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
@@ -8,7 +8,6 @@ import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
-import com.foodcourt.users.domain.usecase.UserUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -118,4 +117,55 @@ public class UserUseCaseTest {
         assertEquals(Constants.USER_NO_FOUND, exception.getMessage());
         verify(userPersistencePort).getUserById(userId);
     }
+
+    @Test
+    void shouldCreateEmployeeSuccessFull(){
+        User userEmployee = User.builder()
+                .email("test@pragma.com")
+                .password("Assurance123")
+                .idNumber("1234567")
+                .name("Jane")
+                .phoneNumber("+573158000111")
+                .lastName("doe")
+                .build();
+        Role employeeRole = Role.builder()
+                .name(UserRole.EMPLOYEE).
+                id(1L).
+                build();
+        userEmployee.setRole(employeeRole);
+
+        when(rolePersistencePort.getByName(UserRole.EMPLOYEE))
+                .thenReturn(Optional.of(employeeRole));
+
+        when(passwordEncoderPort.encoder(anyString()))
+                .thenReturn(anyString());
+        userUseCase.createEmployee(userEmployee);
+
+        verify(userPersistencePort).saveUser(any(User.class));
+    }
+
+    @Test
+    void shouldCreateEmployeeFailThrownDomainException(){
+        User userEmployee = User.builder()
+                .email("test@pragma.com")
+                .password("Assurance123")
+                .idNumber("1234567")
+                .name("Jane")
+                .phoneNumber("+573158000111")
+                .lastName("doe")
+                .build();
+        Role employeeRole = Role.builder()
+                .name(UserRole.EMPLOYEE).
+                id(1L).
+                build();
+        Role requestRole = Role.builder().id(2L).build();
+        userEmployee.setRole(requestRole);
+
+        when(rolePersistencePort.getByName(UserRole.EMPLOYEE))
+                .thenReturn(Optional.of(employeeRole));
+
+        assertThrows(DomainException.class, () -> userUseCase.createEmployee(userEmployee));
+    }
+
+
 }

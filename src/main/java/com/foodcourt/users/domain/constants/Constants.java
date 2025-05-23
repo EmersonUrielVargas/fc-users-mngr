@@ -9,7 +9,8 @@ public class Constants {
     public static final String ROLE_NO_FOUND = "El rol no fue encontrado ";
     public static final String USER_NO_FOUND = "El usuario no fue encontrado ";
     public static final String INVALID_CREDENTIALS = "Las credenciales son invalidas, verifique informacion";
-
+    public static final String ERROR_GENERATE_TOKEN = "Ocurrio un error al generar el token";
+    public static final String ROLE_EMPLOYEE_NO_MATCHED = "El id rol no corresponde al de un empleado ";
 
     /*Patrones propiedes*/
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
