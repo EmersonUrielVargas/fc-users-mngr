@@ -52,18 +52,27 @@ public class UserUseCase implements IUserServicePort{
     }
 
     @Override
-    public void createEmployee(User employee) {
-        UserValidator.validateEmail(employee);
-        UserValidator.validatePhone(employee);
-        User validatedUser = UserValidator.validateIDNumber(employee);
-        Role employeeRol = rolePersistencePort.getByName(UserRole.EMPLOYEE)
-                .orElseThrow(() -> new DomainException(Constants.ROLE_NO_FOUND));
-        if (!employeeRol.getId().equals(employee.getRole().getId())){
-            throw new DomainException(Constants.ROLE_EMPLOYEE_NO_MATCHED);
-        }
-        validatedUser.setRole(employeeRol);
-        validatedUser.setPassword(passwordEncoderPort.encoder(employee.getPassword()));
-
+    public void createEmployee(User employeeToCreate) {
+        User validatedUser = validateCreationUser(employeeToCreate, UserRole.EMPLOYEE);
         userPersistencePort.saveUser(validatedUser);
+    }
+
+    public void createClient(User clientToCreate) {
+        User validatedUser = validateCreationUser(clientToCreate, UserRole.CLIENT);
+        userPersistencePort.saveUser(validatedUser);
+    }
+
+    private User validateCreationUser(User user,UserRole userRole){
+        UserValidator.validateEmail(user);
+        UserValidator.validatePhone(user);
+        User validatedUser = UserValidator.validateIDNumber(user);
+        Role roleFound = rolePersistencePort.getByName(userRole)
+                .orElseThrow(() -> new DomainException(Constants.ROLE_NO_FOUND));
+        if (!roleFound.getId().equals(user.getRole().getId())){
+            throw new DomainException(Constants.ROLE_USER_NO_MATCHED);
+        }
+        validatedUser.setRole(roleFound);
+        validatedUser.setPassword(passwordEncoderPort.encoder(user.getPassword()));
+        return validatedUser;
     }
 }

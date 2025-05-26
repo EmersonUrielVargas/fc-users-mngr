@@ -9,4 +9,5 @@ public interface IUserServicePort {
     void createOwner(User user);
     Optional<UserRole> getUserRoleById(Long idUser);
     void createEmployee(User user);
+    void createClient(User user);
 }

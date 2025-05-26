@@ -6,19 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateEmployeeRequestDto {
-    @NotNull
-    private String name;
-    @NotNull
-    private String lastName;
-    @NotNull
-    private String idNumber;
-    @NotNull
-    private String phoneNumber;
+public class CreateEmployeeRequestDto extends CreateBasicUserRequestDto{
     @NotNull
     private Long idRole;
-    @NotNull
-    private String email;
-    @NotNull
-    private String password;
 }

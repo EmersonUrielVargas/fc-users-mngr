@@ -4,11 +4,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-public class OwnerRequestDto extends CreateBasicUserRequestDto{
+public class CreateClientRequestDto extends CreateBasicUserRequestDto{
     @NotNull
-    private LocalDate birthDate;
+    private Long idRole;
+
 }

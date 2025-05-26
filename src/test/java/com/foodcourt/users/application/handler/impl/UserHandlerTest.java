@@ -1,8 +1,10 @@
 package com.foodcourt.users.application.handler.impl;
 
+import com.foodcourt.users.application.dto.request.CreateClientRequestDto;
+import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
-import com.foodcourt.users.application.mapper.IOwnerRequestMapper;
+import com.foodcourt.users.application.mapper.ICreateUserRequestMapper;
 import com.foodcourt.users.domain.api.IUserServicePort;
 import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
@@ -27,7 +29,7 @@ class UserHandlerTest {
     private IUserServicePort userServicePort;
 
     @Mock
-    private IOwnerRequestMapper ownerMapper;
+    private ICreateUserRequestMapper createUserRequestMapper;
 
     @InjectMocks
     private UserHandler userHandler;
@@ -52,10 +54,10 @@ class UserHandlerTest {
         user.setBirthDate(LocalDate.of(1990, 1, 1));
         user.setEmail("diana.barrigan@example.com");
         user.setPassword("password123");
-        when(ownerMapper.toUser(ownerRequestDto)).thenReturn(user);
+        when(createUserRequestMapper.toUser(ownerRequestDto)).thenReturn(user);
         userHandler.createOwner(ownerRequestDto);
 
-        verify(ownerMapper, times(1)).toUser(ownerRequestDto);
+        verify(createUserRequestMapper, times(1)).toUser(ownerRequestDto);
         verify(userServicePort, times(1)).createOwner(user);
     }
 
@@ -83,4 +85,53 @@ class UserHandlerTest {
         assertEquals(Constants.ROLE_NO_FOUND, exception.getMessage());
         verify(userServicePort, times(1)).getUserRoleById(userId);
     }
+
+    @Test
+    void createEmployeeSuccessful() {
+        CreateEmployeeRequestDto employeeRequestDto = new CreateEmployeeRequestDto();
+        employeeRequestDto.setName("Clift");
+        employeeRequestDto.setLastName("Jones");
+        employeeRequestDto.setIdNumber("123456789");
+        employeeRequestDto.setPhoneNumber("+1234567890");
+        employeeRequestDto.setEmail("clift.jones@example.com");
+        employeeRequestDto.setPassword("password123");
+
+        User user = new User();
+        user.setName("Diana");
+        user.setLastName("Barrigan");
+        user.setIdNumber("123456789");
+        user.setPhoneNumber("+1234567890");
+        user.setEmail("diana.barrigan@example.com");
+        user.setPassword("password123");
+        when(createUserRequestMapper.toUser(employeeRequestDto)).thenReturn(user);
+        userHandler.createEmployee(employeeRequestDto);
+
+        verify(createUserRequestMapper, times(1)).toUser(employeeRequestDto);
+        verify(userServicePort, times(1)).createEmployee(user);
+    }
+
+    @Test
+    void createClientSuccessful() {
+        CreateClientRequestDto clientRequestDto = new CreateClientRequestDto();
+        clientRequestDto.setName("Clift");
+        clientRequestDto.setLastName("Jones");
+        clientRequestDto.setIdNumber("123456789");
+        clientRequestDto.setPhoneNumber("+1234567890");
+        clientRequestDto.setEmail("clift.jones@example.com");
+        clientRequestDto.setPassword("password123");
+
+        User user = new User();
+        user.setName("Diana");
+        user.setLastName("Barrigan");
+        user.setIdNumber("123456789");
+        user.setPhoneNumber("+1234567890");
+        user.setEmail("diana.barrigan@example.com");
+        user.setPassword("password123");
+        when(createUserRequestMapper.toUser(clientRequestDto)).thenReturn(user);
+        userHandler.createClient(clientRequestDto);
+
+        verify(createUserRequestMapper, times(1)).toUser(clientRequestDto);
+        verify(userServicePort, times(1)).createClient(user);
+    }
+
 }
