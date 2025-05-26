@@ -1,11 +1,11 @@
 package com.foodcourt.users.application.handler.impl;
 
+import com.foodcourt.users.application.dto.request.CreateClientRequestDto;
 import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
-import com.foodcourt.users.application.mapper.ICreateEmployeeRequestMapper;
-import com.foodcourt.users.application.mapper.IOwnerRequestMapper;
+import com.foodcourt.users.application.mapper.ICreateUserRequestMapper;
 import com.foodcourt.users.domain.api.IUserServicePort;
 import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
@@ -20,12 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserHandler implements IUserHandler {
     private final IUserServicePort userServicePort;
-    private final IOwnerRequestMapper ownerRequestMapper;
-    private final ICreateEmployeeRequestMapper createEmployeeRequestMapper;
+    private final ICreateUserRequestMapper userRequestMapper;
 
     @Override
     public void createOwner(OwnerRequestDto owner) {
-        User userToCreate = ownerRequestMapper.toUser(owner);
+        User userToCreate = userRequestMapper.toUser(owner);
         userServicePort.createOwner(userToCreate);
     }
 
@@ -40,8 +39,14 @@ public class UserHandler implements IUserHandler {
 
     @Override
     public void createEmployee(CreateEmployeeRequestDto createEmployeeRequestDto) {
-        User employee = createEmployeeRequestMapper.toUser(createEmployeeRequestDto);
+        User employee = userRequestMapper.toUser(createEmployeeRequestDto);
         userServicePort.createEmployee(employee);
+    }
+
+    @Override
+    public void createClient(CreateClientRequestDto clientRequestDto) {
+        User userClient = userRequestMapper.toUser(clientRequestDto);
+        userServicePort.createClient(userClient);
     }
 
 

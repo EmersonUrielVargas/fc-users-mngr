@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserUseCaseTest {
+class UserUseCaseTest {
 
     @Mock
     private IUserPersistencePort userPersistencePort;
@@ -109,7 +109,6 @@ public class UserUseCaseTest {
     @Test
     void shouldThrowExceptionUserNotFound(){
         Long userId = 2L;
-        User userOwner = new User();
         when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.empty());
 
         DomainException exception = assertThrows(DomainException.class, () -> userUseCase.getUserRoleById(userId));
@@ -167,5 +166,49 @@ public class UserUseCaseTest {
         assertThrows(DomainException.class, () -> userUseCase.createEmployee(userEmployee));
     }
 
+    @Test
+    void shouldCreateClientSuccessFull(){
+        User userClient = User.builder()
+                .email("test@pragma.com")
+                .password("Assurance123")
+                .idNumber("1234567")
+                .name("Jane")
+                .phoneNumber("+573158000111")
+                .lastName("doe")
+                .build();
+        Role clientRole = Role.builder()
+                .name(UserRole.CLIENT).
+                id(1L).
+                build();
+        userClient.setRole(clientRole);
+
+        when(rolePersistencePort.getByName(UserRole.CLIENT))
+                .thenReturn(Optional.of(clientRole));
+
+        when(passwordEncoderPort.encoder(anyString()))
+                .thenReturn(anyString());
+        userUseCase.createClient(userClient);
+
+        verify(userPersistencePort).saveUser(any(User.class));
+    }
+
+    @Test
+    void shouldCreateClientFailThrownDomainException(){
+        User userClient = User.builder()
+                .email("test@pragma.com")
+                .password("Assurance123")
+                .idNumber("1234567")
+                .name("Jane")
+                .phoneNumber("+573158000111")
+                .lastName("doe")
+                .build();
+        Role requestRole = Role.builder().id(2L).build();
+        userClient.setRole(requestRole);
+
+        when(rolePersistencePort.getByName(UserRole.CLIENT))
+                .thenReturn(Optional.empty());
+
+        assertThrows(DomainException.class, () -> userUseCase.createClient(userClient));
+    }
 
 }
