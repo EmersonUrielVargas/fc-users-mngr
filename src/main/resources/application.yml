@@ -17,6 +17,7 @@ spring:
 application:
   security:
     jwt:
+      rounds-encrypt: 12
       secret-key: "C2mBOVNCQY2xziZCCSSehBvzou1LIMj2h1AeUDi5sZ2UHVGHvMlO+eW1EIUPj+X92PTTJDBBLhS+6ftNMwjVeg=="
       expiration: 14400000
       refresh-token:

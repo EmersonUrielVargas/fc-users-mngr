@@ -1,6 +1,7 @@
 package com.foodcourt.users.infrastructure.security.service;
 
 import com.foodcourt.users.infrastructure.security.dto.UserDetailsDto;
+import com.foodcourt.users.infrastructure.shared.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -16,9 +17,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-
-    public static final String ROL_KEY_TOKEN = "role";
-    public static final String USER_ID_KEY_TOKEN = "userID";
 
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
@@ -47,8 +45,8 @@ public class JwtService {
     
     public String generateToken(UserDetailsDto userDetails){
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put(USER_ID_KEY_TOKEN, userDetails.getIdUser());
-        extraClaims.put(ROL_KEY_TOKEN,userDetails.getRole().name());
+        extraClaims.put(Constants.USER_ID_KEY_TOKEN, userDetails.getIdUser());
+        extraClaims.put(Constants.ROL_KEY_TOKEN,userDetails.getRole().name());
         return generateToken(extraClaims, userDetails);
     }
 

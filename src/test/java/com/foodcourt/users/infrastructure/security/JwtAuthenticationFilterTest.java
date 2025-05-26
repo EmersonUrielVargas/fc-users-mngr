@@ -3,6 +3,7 @@ package com.foodcourt.users.infrastructure.security;
 import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.infrastructure.security.dto.UserDetailsDto;
 import com.foodcourt.users.infrastructure.security.service.JwtService;
+import com.foodcourt.users.infrastructure.shared.Constants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -66,7 +67,7 @@ class JwtAuthenticationFilterTest {
     @Test
     @DisplayName("GIVEN Chain arrive WHEN no found authorization header THEN should doFilterInternal continue to next chain")
     void doFilterInternalNoAuthorizationHeader() throws ServletException, IOException {
-        when(request.getHeader(JwtAuthenticationFilter.AUTH_HEADER_NAME)).thenReturn(null);
+        when(request.getHeader(Constants.AUTH_HEADER_NAME)).thenReturn(null);
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
 
@@ -78,7 +79,7 @@ class JwtAuthenticationFilterTest {
     @Test
     @DisplayName("GIVEN Chain arrive WHEN authorization header not start with bearer THEN should doFilterInternal continue to next chain")
     void doFilterInternalAuthHeaderNotStartingWithBearer() throws ServletException, IOException {
-        when(request.getHeader(JwtAuthenticationFilter.AUTH_HEADER_NAME)).thenReturn("InvalidPrefix token");
+        when(request.getHeader(Constants.AUTH_HEADER_NAME)).thenReturn("InvalidPrefix token");
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
 
@@ -91,7 +92,7 @@ class JwtAuthenticationFilterTest {
     @DisplayName("GIVEN Chain arrive WHEN email extracted is empty THEN should doFilterInternal continue to next chain")
     void doFilterInternalNullUserEmail() throws ServletException, IOException {
         String token = "someValidToken";
-        when(request.getHeader(JwtAuthenticationFilter.AUTH_HEADER_NAME)).thenReturn(JwtAuthenticationFilter.AUTH_TOKEN_PREFIX + token);
+        when(request.getHeader(Constants.AUTH_HEADER_NAME)).thenReturn(Constants.AUTH_TOKEN_PREFIX + token);
         when(jwtService.extractUserEmail(token)).thenReturn(null);
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
@@ -110,7 +111,7 @@ class JwtAuthenticationFilterTest {
         UserDetailsDto userDetails = UserDetailsDto.builder().email(userEmail).build();
         when(securityContext.getAuthentication()).thenReturn(authentication);
 
-        when(request.getHeader(JwtAuthenticationFilter.AUTH_HEADER_NAME)).thenReturn(JwtAuthenticationFilter.AUTH_TOKEN_PREFIX + token);
+        when(request.getHeader(Constants.AUTH_HEADER_NAME)).thenReturn(Constants.AUTH_TOKEN_PREFIX + token);
         when(jwtService.extractUserEmail(token)).thenReturn(userEmail);
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
@@ -133,7 +134,7 @@ class JwtAuthenticationFilterTest {
                 .role(UserRole.valueOf(roleString))
                 .build();
 
-        when(request.getHeader(JwtAuthenticationFilter.AUTH_HEADER_NAME)).thenReturn(JwtAuthenticationFilter.AUTH_TOKEN_PREFIX + token);
+        when(request.getHeader(Constants.AUTH_HEADER_NAME)).thenReturn(Constants.AUTH_TOKEN_PREFIX + token);
         when(jwtService.extractUserEmail(token)).thenReturn(userEmail);
         when(userDetailsService.loadUserByUsername(userEmail)).thenReturn(userDetails);
         when(jwtService.isTokenValid(token, userDetails)).thenReturn(false);
@@ -159,7 +160,7 @@ class JwtAuthenticationFilterTest {
                 .role(UserRole.valueOf(roleString))
                 .build();
 
-        when(request.getHeader(JwtAuthenticationFilter.AUTH_HEADER_NAME)).thenReturn(JwtAuthenticationFilter.AUTH_TOKEN_PREFIX + token);
+        when(request.getHeader(Constants.AUTH_HEADER_NAME)).thenReturn(Constants.AUTH_TOKEN_PREFIX + token);
         when(jwtService.extractUserEmail(token)).thenReturn(userEmail);
         when(userDetailsService.loadUserByUsername(userEmail)).thenReturn(userDetails);
         when(jwtService.isTokenValid(token, userDetails)).thenReturn(true);

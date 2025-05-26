@@ -21,6 +21,7 @@ import com.foodcourt.users.infrastructure.out.jpa.repository.IUserRepository;
 import com.foodcourt.users.infrastructure.security.adapter.TokenJwtAdapter;
 import com.foodcourt.users.infrastructure.security.mapper.IUserDetailsMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,11 +30,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
+
+    @Value("${application.security.jwt.rounds-encrypt:12}")
+    private Integer rountsToken;
+
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
     private final IRoleRepository roleRepository;
     private final IRoleEntityMapper roleEntityMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
     private final JwtService jwtService;
     private final IUserDetailsMapper userDetailsMapper;
 
@@ -49,7 +53,12 @@ public class BeanConfiguration {
 
     @Bean
     public IPasswordEncoderPort passwordEncoderPort() {
-        return new PasswordEncoderAdapter(bCryptPasswordEncoder);
+        return new PasswordEncoderAdapter(bCryptPasswordEncoder());
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(rountsToken);
     }
 
     @Bean
