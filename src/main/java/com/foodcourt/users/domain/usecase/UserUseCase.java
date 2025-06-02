@@ -4,14 +4,14 @@ import com.foodcourt.users.domain.api.IUserServicePort;
 import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
+import com.foodcourt.users.domain.exception.RoleNotFoundException;
+import com.foodcourt.users.domain.exception.UserNotFoundException;
 import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
 import com.foodcourt.users.domain.validators.UserValidator;
-
-import java.util.Optional;
 
 public class UserUseCase implements IUserServicePort{
 
@@ -31,12 +31,13 @@ public class UserUseCase implements IUserServicePort{
 
     @Override
     public void createOwner(User userToCreate) {
+        UserValidator.validateValidBasicUser(userToCreate);
         UserValidator.validateEmail(userToCreate);
         UserValidator.validatePhone(userToCreate);
         UserValidator.validateIDNumber(userToCreate);
         User validatedUser = UserValidator.validateAge(userToCreate);
         Role ownerRol = rolePersistencePort.getByName(UserRole.OWNER)
-                .orElseThrow(() -> new DomainException(Constants.ROLE_NO_FOUND));
+                .orElseThrow(RoleNotFoundException::new);
         validatedUser.setRole(ownerRol);
         validatedUser.setPassword(passwordEncoderPort.encoder(userToCreate.getPassword()));
 
@@ -44,11 +45,11 @@ public class UserUseCase implements IUserServicePort{
     }
 
     @Override
-    public Optional<UserRole> getUserRoleById(Long idUser) {
+    public String getUserRoleById(Long idUser) {
         User userFound = userPersistencePort.getUserById(idUser)
-                .orElseThrow(()-> new DomainException(Constants.USER_NO_FOUND));
-        return Optional.ofNullable(userFound.getRole())
-                .map(Role::getName);
+                .orElseThrow(UserNotFoundException::new);
+        UserRole roleName = userFound.getRole().getName();
+        return roleName.toString();
     }
 
     @Override
@@ -57,17 +58,19 @@ public class UserUseCase implements IUserServicePort{
         userPersistencePort.saveUser(validatedUser);
     }
 
+    @Override
     public void createClient(User clientToCreate) {
         User validatedUser = validateCreationUser(clientToCreate, UserRole.CLIENT);
         userPersistencePort.saveUser(validatedUser);
     }
 
     private User validateCreationUser(User user,UserRole userRole){
+        UserValidator.validateValidBasicUser(user);
         UserValidator.validateEmail(user);
         UserValidator.validatePhone(user);
         User validatedUser = UserValidator.validateIDNumber(user);
         Role roleFound = rolePersistencePort.getByName(userRole)
-                .orElseThrow(() -> new DomainException(Constants.ROLE_NO_FOUND));
+                .orElseThrow(RoleNotFoundException::new);
         if (!roleFound.getId().equals(user.getRole().getId())){
             throw new DomainException(Constants.ROLE_USER_NO_MATCHED);
         }
