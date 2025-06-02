@@ -3,13 +3,12 @@ package com.foodcourt.users.domain.usecase;
 import com.foodcourt.users.domain.api.IAuthUserServicePort;
 import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.exception.DomainException;
+import com.foodcourt.users.domain.exception.UserNotFoundException;
 import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IAuthenticationPort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
-import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
 
-import java.util.Optional;
 
 public class AuthUserUseCase implements IAuthUserServicePort {
 
@@ -29,7 +28,7 @@ public class AuthUserUseCase implements IAuthUserServicePort {
     @Override
     public String loginUser(String email, String password) {
         User userFound = userPersistencePort.getUserByEmail(email)
-                .orElseThrow(()->new DomainException(Constants.USER_NO_FOUND));
+                .orElseThrow(UserNotFoundException::new);
         if (passwordEncoderPort.matches(password, userFound.getPassword())){
             return authenticationPort.generateToken(userFound)
                     .orElseThrow(()->new DomainException(Constants.ERROR_GENERATE_TOKEN));

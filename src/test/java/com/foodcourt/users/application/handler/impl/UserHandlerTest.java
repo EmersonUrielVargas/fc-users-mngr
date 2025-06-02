@@ -6,9 +6,7 @@ import com.foodcourt.users.application.dto.request.OwnerRequestDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.mapper.ICreateUserRequestMapper;
 import com.foodcourt.users.domain.api.IUserServicePort;
-import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
-import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,23 +64,12 @@ class UserHandlerTest {
         Long userId = 1L;
         UserRole expectedRoleEnum = UserRole.OWNER;
 
-        when(userServicePort.getUserRoleById(userId)).thenReturn(Optional.of(expectedRoleEnum));
+        when(userServicePort.getUserRoleById(userId)).thenReturn(expectedRoleEnum.name());
 
         UserRoleResponseDto actualResponse = userHandler.getUserRoleById(userId);
 
         assertNotNull(actualResponse);
         assertEquals(expectedRoleEnum.toString(), actualResponse.getUserRole());
-        verify(userServicePort, times(1)).getUserRoleById(userId);
-    }
-
-    @Test
-    void getUserRoleByIdShouldFail() {
-        Long userId = 2L;
-        when(userServicePort.getUserRoleById(userId)).thenReturn(Optional.empty());
-
-        DomainException exception = assertThrows(DomainException.class, () -> userHandler.getUserRoleById(userId));
-
-        assertEquals(Constants.ROLE_NO_FOUND, exception.getMessage());
         verify(userServicePort, times(1)).getUserRoleById(userId);
     }
 

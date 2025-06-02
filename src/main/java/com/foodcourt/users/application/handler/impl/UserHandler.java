@@ -7,9 +7,6 @@ import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
 import com.foodcourt.users.application.mapper.ICreateUserRequestMapper;
 import com.foodcourt.users.domain.api.IUserServicePort;
-import com.foodcourt.users.domain.constants.Constants;
-import com.foodcourt.users.domain.enums.UserRole;
-import com.foodcourt.users.domain.exception.DomainException;
 import com.foodcourt.users.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,9 +28,8 @@ public class UserHandler implements IUserHandler {
     @Override
     public UserRoleResponseDto getUserRoleById(Long id) {
         UserRoleResponseDto response = new UserRoleResponseDto();
-        UserRole roleFound = userServicePort.getUserRoleById(id)
-                .orElseThrow(()-> new DomainException(Constants.ROLE_NO_FOUND));
-        response.setUserRole(roleFound.toString());
+        String roleFound = userServicePort.getUserRoleById(id);
+        response.setUserRole(roleFound);
         return response;
     }
 

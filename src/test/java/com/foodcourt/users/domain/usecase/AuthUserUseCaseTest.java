@@ -1,9 +1,8 @@
 package com.foodcourt.users.domain.usecase;
 
+import com.foodcourt.users.domain.DataDomainFactory;
 import com.foodcourt.users.domain.constants.Constants;
-import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
-import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
 import com.foodcourt.users.domain.spi.IAuthenticationPort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
@@ -17,10 +16,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AuthUserUseCaseTest {
@@ -40,15 +41,9 @@ class AuthUserUseCaseTest {
         String userEmail = "test@example.com";
         String userPassword = "password124";
         String tokenGenerated = "generatedToken";
-        User userFound = User.builder()
-                .email("test@example.com")
-                .password("Assurance123")
-                .birthDate(LocalDate.now().minusYears(19))
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
+        User userFound = DataDomainFactory.createUser();
+        userFound.setBirthDate(LocalDate.now().minusYears(19));
+
         when(userPersistencePort.getUserByEmail(userEmail))
                 .thenReturn(Optional.of(userFound));
 
@@ -66,15 +61,8 @@ class AuthUserUseCaseTest {
     void LoginUserFailCredentials() {
         String userEmail = "test@example.com";
         String userPassword = "password124";
-        User userFound = User.builder()
-                .email("test@example.com")
-                .password("Assurance123")
-                .birthDate(LocalDate.now().minusYears(19))
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
+        User userFound = DataDomainFactory.createUser();
+        userFound.setBirthDate(LocalDate.now().minusYears(19));
         when(userPersistencePort.getUserByEmail(userEmail))
                 .thenReturn(Optional.of(userFound));
 
@@ -105,15 +93,8 @@ class AuthUserUseCaseTest {
     void LoginUserErrorGenerateToken() {
         String userEmail = "test@example.com";
         String userPassword = "password124";
-        User userFound = User.builder()
-                .email("test@example.com")
-                .password("Assurance123")
-                .birthDate(LocalDate.now().minusYears(19))
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
+        User userFound = DataDomainFactory.createUser();
+        userFound.setBirthDate(LocalDate.now().minusYears(19));
         when(userPersistencePort.getUserByEmail(userEmail))
                 .thenReturn(Optional.of(userFound));
 
