@@ -1,5 +1,6 @@
 package com.foodcourt.users.domain.usecase;
 
+import com.foodcourt.users.domain.DataDomainFactory;
 import com.foodcourt.users.domain.constants.Constants;
 import com.foodcourt.users.domain.enums.UserRole;
 import com.foodcourt.users.domain.exception.DomainException;
@@ -37,19 +38,12 @@ class UserUseCaseTest {
 
     @Test
     void shouldCreateOwnerSuccessFull(){
-        User userOwner = User.builder()
-                .email("test@pragma.com")
-                .password("Assurance123")
-                .birthDate(LocalDate.now().minusYears(19))
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
-        Role ownerRole = Role.builder()
-                .name(UserRole.OWNER).
-                id(1L).
-                build();
+        User userOwner = DataDomainFactory.createUser();
+        userOwner.setBirthDate(LocalDate.now().minusYears(19));
+        userOwner.setRole(DataDomainFactory.createEmptyRole());
+
+        Role ownerRole = DataDomainFactory.createRole();
+        ownerRole.setName(UserRole.OWNER);
 
         when(rolePersistencePort.getByName(UserRole.OWNER))
                 .thenReturn(Optional.of(ownerRole));
@@ -63,15 +57,10 @@ class UserUseCaseTest {
 
     @Test
     void shouldCreateOwnerFailThrownDomainException(){
-        User userOwner = User.builder()
-                .email("test@.com")
-                .password("Assurance123")
-                .birthDate(LocalDate.now().minusYears(19))
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
+        User userOwner = DataDomainFactory.createUser();
+        userOwner.setBirthDate(LocalDate.now().minusYears(19));
+        userOwner.setRole(DataDomainFactory.createEmptyRole());
+
 
         assertThrows(DomainException.class, () -> userUseCase.createOwner(userOwner));
     }
@@ -79,31 +68,18 @@ class UserUseCaseTest {
     @Test
     void shouldReturnUserRoleSuccessful(){
         Long userId = 2L;
-        Role ownerRole = Role.builder()
-                .name(UserRole.OWNER).
-                id(1L).
-                build();
+        Role ownerRole = DataDomainFactory.createRole();
+        ownerRole.setName(UserRole.OWNER);
+
         User userOwner = new User();
         userOwner.setRole(ownerRole);
         when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.of(userOwner));
 
-        Optional<UserRole> roleResponse = userUseCase.getUserRoleById(userId);
+        String roleResponse = userUseCase.getUserRoleById(userId);
 
         verify(userPersistencePort).getUserById(userId);
-        assertEquals(Optional.of(ownerRole.getName()), roleResponse);
+        assertEquals(roleResponse, ownerRole.getName().name());
 
-    }
-
-    @Test
-    void shouldReturnEmptyUserRole(){
-        Long userId = 2L;
-        User userOwner = new User();
-        when(userPersistencePort.getUserById(anyLong())).thenReturn(Optional.of(userOwner));
-
-        Optional<UserRole> roleResponse = userUseCase.getUserRoleById(userId);
-
-        verify(userPersistencePort).getUserById(userId);
-        assertTrue(roleResponse.isEmpty());
     }
 
     @Test
@@ -119,18 +95,9 @@ class UserUseCaseTest {
 
     @Test
     void shouldCreateEmployeeSuccessFull(){
-        User userEmployee = User.builder()
-                .email("test@pragma.com")
-                .password("Assurance123")
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
-        Role employeeRole = Role.builder()
-                .name(UserRole.EMPLOYEE).
-                id(1L).
-                build();
+        User userEmployee = DataDomainFactory.createUser();
+        Role employeeRole = DataDomainFactory.createRole();
+        employeeRole.setName(UserRole.EMPLOYEE);
         userEmployee.setRole(employeeRole);
 
         when(rolePersistencePort.getByName(UserRole.EMPLOYEE))
@@ -145,20 +112,11 @@ class UserUseCaseTest {
 
     @Test
     void shouldCreateEmployeeFailThrownDomainException(){
-        User userEmployee = User.builder()
-                .email("test@pragma.com")
-                .password("Assurance123")
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
-        Role employeeRole = Role.builder()
-                .name(UserRole.EMPLOYEE).
-                id(1L).
-                build();
-        Role requestRole = Role.builder().id(2L).build();
-        userEmployee.setRole(requestRole);
+        User userEmployee = DataDomainFactory.createUser();
+        userEmployee.setRole(DataDomainFactory.createEmptyRole());
+
+        Role employeeRole = DataDomainFactory.createRole();
+        employeeRole.setName(UserRole.EMPLOYEE);
 
         when(rolePersistencePort.getByName(UserRole.EMPLOYEE))
                 .thenReturn(Optional.of(employeeRole));
@@ -168,25 +126,13 @@ class UserUseCaseTest {
 
     @Test
     void shouldCreateClientSuccessFull(){
-        User userClient = User.builder()
-                .email("test@pragma.com")
-                .password("Assurance123")
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
-        Role clientRole = Role.builder()
-                .name(UserRole.CLIENT).
-                id(1L).
-                build();
-        userClient.setRole(clientRole);
+        User userClient = DataDomainFactory.createUser();
 
         when(rolePersistencePort.getByName(UserRole.CLIENT))
-                .thenReturn(Optional.of(clientRole));
-
+                .thenReturn(Optional.of(DataDomainFactory.createRole()));
         when(passwordEncoderPort.encoder(anyString()))
                 .thenReturn(anyString());
+
         userUseCase.createClient(userClient);
 
         verify(userPersistencePort).saveUser(any(User.class));
@@ -194,16 +140,8 @@ class UserUseCaseTest {
 
     @Test
     void shouldCreateClientFailThrownDomainException(){
-        User userClient = User.builder()
-                .email("test@pragma.com")
-                .password("Assurance123")
-                .idNumber("1234567")
-                .name("Jane")
-                .phoneNumber("+573158000111")
-                .lastName("doe")
-                .build();
-        Role requestRole = Role.builder().id(2L).build();
-        userClient.setRole(requestRole);
+        User userClient = DataDomainFactory.createUser();
+        userClient.setRole(DataDomainFactory.createEmptyRole());
 
         when(rolePersistencePort.getByName(UserRole.CLIENT))
                 .thenReturn(Optional.empty());
