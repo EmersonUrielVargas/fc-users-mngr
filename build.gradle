@@ -25,6 +25,7 @@ ext {
 	lombokVersion = "1.18.34"
 	lombokMapstructBindingVersion = "0.2.0"
 	mySqlConnectorVersion = "8.0.33"
+	feignVersion = "4.2.1"
 	openApiVersion = "2.8.8"
 	jjwtApiVersion = "0.12.6"
 }
@@ -52,6 +53,8 @@ dependencies {
 
 	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtApiVersion}"
 	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtApiVersion}"
+
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:${feignVersion}")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}")
 }

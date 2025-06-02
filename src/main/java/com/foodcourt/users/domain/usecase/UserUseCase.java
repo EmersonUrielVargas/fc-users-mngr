@@ -8,6 +8,7 @@ import com.foodcourt.users.domain.exception.RoleNotFoundException;
 import com.foodcourt.users.domain.exception.UserNotFoundException;
 import com.foodcourt.users.domain.model.Role;
 import com.foodcourt.users.domain.model.User;
+import com.foodcourt.users.domain.spi.IAssignmentUserPersistencePort;
 import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
 import com.foodcourt.users.domain.spi.IRolePersistencePort;
 import com.foodcourt.users.domain.spi.IUserPersistencePort;
@@ -18,14 +19,17 @@ public class UserUseCase implements IUserServicePort{
     private final IUserPersistencePort userPersistencePort;
     private final IPasswordEncoderPort passwordEncoderPort;
     private final IRolePersistencePort rolePersistencePort;
+    private final IAssignmentUserPersistencePort assignmentUserPersistencePort;
 
 
     public UserUseCase(IUserPersistencePort userPersistencePort,
                        IPasswordEncoderPort passwordEncoderPort,
-                       IRolePersistencePort rolePersistencePort) {
+                       IRolePersistencePort rolePersistencePort,
+                       IAssignmentUserPersistencePort assignmentUserPersistencePort) {
         this.userPersistencePort = userPersistencePort;
         this.passwordEncoderPort = passwordEncoderPort;
         this.rolePersistencePort = rolePersistencePort;
+        this.assignmentUserPersistencePort = assignmentUserPersistencePort;
     }
 
 
@@ -55,7 +59,8 @@ public class UserUseCase implements IUserServicePort{
     @Override
     public void createEmployee(User employeeToCreate) {
         User validatedUser = validateCreationUser(employeeToCreate, UserRole.EMPLOYEE);
-        userPersistencePort.saveUser(validatedUser);
+        User userCreated = userPersistencePort.saveUser(validatedUser);
+        assignmentUserPersistencePort.saveAssignment(userCreated.getId());
     }
 
     @Override

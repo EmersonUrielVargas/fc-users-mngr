@@ -2,12 +2,11 @@ package com.foodcourt.users.infrastructure.configuration;
 
 import com.foodcourt.users.domain.api.IAuthUserServicePort;
 import com.foodcourt.users.domain.api.IUserServicePort;
-import com.foodcourt.users.domain.spi.IAuthenticationPort;
-import com.foodcourt.users.domain.spi.IPasswordEncoderPort;
-import com.foodcourt.users.domain.spi.IRolePersistencePort;
-import com.foodcourt.users.domain.spi.IUserPersistencePort;
+import com.foodcourt.users.domain.spi.*;
 import com.foodcourt.users.domain.usecase.AuthUserUseCase;
 import com.foodcourt.users.domain.usecase.UserUseCase;
+import com.foodcourt.users.infrastructure.out.rest.adapter.AssignUserRestAdapter;
+import com.foodcourt.users.infrastructure.out.rest.client.ICourtRestClient;
 import com.foodcourt.users.infrastructure.security.JwtAuthenticationFilter;
 import com.foodcourt.users.infrastructure.security.service.JwtService;
 import com.foodcourt.users.infrastructure.security.service.UserDetailsServiceImpl;
@@ -40,6 +39,7 @@ public class BeanConfiguration {
     private final IRoleEntityMapper roleEntityMapper;
     private final JwtService jwtService;
     private final IUserDetailsMapper userDetailsMapper;
+    private final ICourtRestClient courtRestClient;
 
     @Bean
     public IUserPersistencePort userPersistencePort() {
@@ -57,13 +57,18 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public IAssignmentUserPersistencePort assignmentUserPersistencePort() {
+        return new AssignUserRestAdapter(courtRestClient);
+    }
+
+    @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(rountsToken);
     }
 
     @Bean
     public IUserServicePort userServicePort() {
-        return new UserUseCase(userPersistencePort(), passwordEncoderPort(), rolePersistencePort());
+        return new UserUseCase(userPersistencePort(), passwordEncoderPort(), rolePersistencePort(), assignmentUserPersistencePort());
     }
 
     @Bean
