@@ -33,13 +33,13 @@ public class ControllerAdvisor {
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<Map<String, String>> handleSQLException(SQLException sqlException) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.DATABASE_ERROR.getMessage()));
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INFORMATION_ERROR.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleInvalidParamException(MethodArgumentNotValidException sqlException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.DATABASE_ERROR.getMessage()));
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INFORMATION_ERROR.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

@@ -23,5 +23,10 @@ application:
       refresh-token:
         expiration: 28800000
 
+external:
+  api:
+    court-mngr:
+      url: "localhost:8082/api/mngr/court/"
+
 appDescription: "Food Court Users mngr"
 appVersion: "1.0.0"
