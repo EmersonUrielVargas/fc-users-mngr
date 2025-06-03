@@ -7,4 +7,5 @@ public interface IUserServicePort {
     String getUserRoleById(Long idUser);
     void createEmployee(User user);
     void createClient(User user);
+    User findById(Long userId);
 }

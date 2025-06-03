@@ -23,10 +23,10 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
-                    .requestMatchers("/public/**", "/swagger-ui**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                    .requestMatchers("/auth/**", "/role/*", "/client").permitAll()
-                    .requestMatchers("/owner").hasAuthority(UserRole.ADMIN.name())
-                    .requestMatchers("/employee").hasAuthority(UserRole.OWNER.name())
+                    .requestMatchers(PathsConstants.PATHS_ALL_ALLOW).permitAll()
+                    .requestMatchers(PathsConstants.PATHS_ADMIN).hasAuthority(UserRole.ADMIN.name())
+                    .requestMatchers(PathsConstants.PATHS_OWNER).hasAuthority(UserRole.OWNER.name())
+                    .requestMatchers(PathsConstants.PATHS_EMPLOYEE).hasAuthority(UserRole.EMPLOYEE.name())
                     .anyRequest()
                     .authenticated()
             ).sessionManagement(sessionManageConfig ->

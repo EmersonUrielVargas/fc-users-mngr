@@ -3,6 +3,7 @@ package com.foodcourt.users.application.handler.impl;
 import com.foodcourt.users.application.dto.request.CreateClientRequestDto;
 import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
+import com.foodcourt.users.application.dto.response.UserContactInfoResponseDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
 import com.foodcourt.users.application.mapper.ICreateUserRequestMapper;
@@ -43,6 +44,12 @@ public class UserHandler implements IUserHandler {
     public void createClient(CreateClientRequestDto clientRequestDto) {
         User userClient = userRequestMapper.toUser(clientRequestDto);
         userServicePort.createClient(userClient);
+    }
+
+    @Override
+    public UserContactInfoResponseDto getContactInfoUser(Long id) {
+        User domainUser = userServicePort.findById(id);
+        return userRequestMapper.toUserContactInfoResponseDto(domainUser);
     }
 
 
