@@ -1,6 +1,12 @@
 package com.foodcourt.users.infrastructure.shared;
 
+import static com.foodcourt.users.domain.constants.Constants.INSTANCE_UTILITY_CLASS;
+
 public class Constants {
+
+    private Constants() {
+        throw new IllegalStateException(INSTANCE_UTILITY_CLASS);
+    }
 
     public static final String STATUS_CODE_CREATED= "201";
     public static final String STATUS_CODE_CONFLICT= "409";
@@ -20,6 +26,9 @@ public class Constants {
     public static final String SUMMARY_GET_ROLE_BY_USER_ID = "Get User Role by user id";
     public static final String SUMMARY_RESPONSE_OK_GET_ROLE = "User Found and return role name of user";
     public static final String SUMMARY_RESPONSE_CONFLICT_GET_ROLE = "User not found";
+
+    public static final String SUMMARY_GET_USER_CONTACT_INFO = "Get User contact info like phoneNumber, name, email by id";
+    public static final String SUMMARY_RESPONSE_OK_GET_USER_INFO = "User Found and return contact info user";
 
     public static final String SUMMARY_SAVE_EMPLOYEE = "Create a new employee user to take orders";
     public static final String SUMMARY_RESPONSE_CREATED_SAVE_EMPLOYEE = "employee created successful";

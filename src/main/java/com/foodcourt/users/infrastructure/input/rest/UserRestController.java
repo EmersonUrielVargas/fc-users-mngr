@@ -3,6 +3,7 @@ package com.foodcourt.users.infrastructure.input.rest;
 import com.foodcourt.users.application.dto.request.CreateClientRequestDto;
 import com.foodcourt.users.application.dto.request.CreateEmployeeRequestDto;
 import com.foodcourt.users.application.dto.request.OwnerRequestDto;
+import com.foodcourt.users.application.dto.response.UserContactInfoResponseDto;
 import com.foodcourt.users.application.dto.response.UserRoleResponseDto;
 import com.foodcourt.users.application.handler.IUserHandler;
 import com.foodcourt.users.infrastructure.shared.Constants;
@@ -47,6 +48,21 @@ public class UserRestController {
     @GetMapping("/role/{id}")
     public ResponseEntity<UserRoleResponseDto> getUserRole(@Valid @PathVariable Long id) {
         UserRoleResponseDto response =  userHandler.getUserRoleById(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @Operation(summary = Constants.SUMMARY_GET_USER_CONTACT_INFO)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = Constants.STATUS_CODE_OK, description = Constants.SUMMARY_RESPONSE_OK_GET_USER_INFO,
+                    content = @Content(mediaType = Constants.MEDIA_TYPE_JSON,
+                            schema = @Schema(implementation = UserContactInfoResponseDto.class)
+                    )
+            ),
+            @ApiResponse(responseCode = Constants.STATUS_CODE_CONFLICT, description = Constants.SUMMARY_RESPONSE_CONFLICT_GET_ROLE, content = @Content)
+    })
+    @GetMapping("/contact/{id}")
+    public ResponseEntity<UserContactInfoResponseDto> getUserContactInfo(@Valid @PathVariable Long id) {
+        UserContactInfoResponseDto response =  userHandler.getContactInfoUser(id);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
