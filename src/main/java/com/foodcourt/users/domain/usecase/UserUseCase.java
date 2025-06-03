@@ -69,6 +69,12 @@ public class UserUseCase implements IUserServicePort{
         userPersistencePort.saveUser(validatedUser);
     }
 
+    @Override
+    public User findById(Long userId) {
+        return userPersistencePort.getUserById(userId)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
     private User validateCreationUser(User user,UserRole userRole){
         UserValidator.validateValidBasicUser(user);
         UserValidator.validateEmail(user);
